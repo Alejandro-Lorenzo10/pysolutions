@@ -1,27 +1,39 @@
-# Pysolutions
+# 🥧PYchat🥧
 
-A simple **client–server Python application** built for CIS 4850.  
-Implements authentication, data persistence, logging, command aliases, and a colorful CLI.
+PYchat is a secure direct-messaging (DM) app built in Python with a Tkinter GUI.
 
----
+It uses a client–server architecture:
 
-## Features
-- 🔑 **User accounts**: register/login with password hashing
-- 💾 **Persistent storage**: saves data in JSON files
-- 🎨 **Colorful CLI** with command aliases (`ls` → list, `rm` → remove, etc.)
-- 📝 **Help menu** with clear command list
-- 📂 **Logging**: server writes events to `logs/server.log`
-- 📊 **Architecture diagram** in `/docs/architecture.png`
+- **Server (`secure_server.py`)** – handles user accounts, logins, messages, conversations, search, typing status, and file sending.
+- **Client (`secure_client_gui.py`)** – a desktop chat app with login/register, inbox, conversations view, live-ish chat window, search, theme settings, and file attachments.
+
+You can run it directly with Python, or build standalone Mac apps with PyInstaller so it works on machines without Python installed.
 
 ---
 
-## Architecture
-![Architecture Diagram](docs/architecture.png)
+## ✨ Main Features
+
+- User **registration & login** with basic lockout after failed attempts  
+- **Private DMs** between users  
+- **Inbox** view and **conversation list** (totals, unread, last message time)  
+- **Chat window** with live-ish auto refresh  
+- **Typing indicator** (“X is typing…”)  
+- **Search** messages by keyword  
+- **Send files** (base64-encoded) between users  
+- **Clear chat** for a conversation  
+- **Export chat to .txt**  
+- **Light / dark themes**, accent color and font size settings  
+- Simple, desktop-style UI built with Tkinter
 
 ---
 
-## Installation
-1. Clone the repo:
-   ```bash
-   git clone https://github.com/<your-username>/pysolutions.git
-   cd pysolutions
+## 🧱 Project Structure
+
+```text
+pysolutions/
+├── secure_server.py          # Server (run this first)
+├── secure_client_gui.py      # GUI client (PYchat)
+├── README.md                 # This file
+├── requirements.txt          # Python dependencies (PyInstaller for builds)
+├── PySolutions Server.spec   # PyInstaller config for server app (optional)
+└── PySolutions Client.spec   # PyInstaller config for client app (optional)

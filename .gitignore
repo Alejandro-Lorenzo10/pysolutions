@@ -1,14 +1,30 @@
 # Python
 __pycache__/
 *.pyc
+*.pyo
 
 # Virtual env
 .venv/
+env/
+venv/
 
-# Logs & data
-logs/
+# PyInstaller build output
+build/
+dist/
+*.spec
+*.toc
+*.pkg
+*.pyz
+*.zip
 *.log
 
-# OS/Editor
+# macOS
 .DS_Store
+*.app
+
+# IDE / Editor
 .vscode/
+.idea/
+
+# Misc
+*.bak
