@@ -44,3 +44,47 @@ pysolutions/
 ├── secure_client_gui.py      # GUI client (PYchat)
 ├── README.md                 # This file
 └── requirements.txt          # Python dependencies
+
+
+
+## 🖥️ Platform & Usage Notes
+
+PYchat currently works **only on macOS** when built as a standalone app.  
+This is because the packaged `.app` files produced by **PyInstaller** are macOS-specific and cannot run on Windows or Linux without rebuilding separate versions for each platform.
+
+To make PYchat work on **multiple computers over the internet**, you would still need:
+
+- A **publicly hosted server** (VPS or cloud server)
+- Change the client HOST value from `127.0.0.1` to your server’s public IP
+- Open port **7777** on the server firewall
+
+Right now, PYchat runs locally using:
+- `127.0.0.1`  
+- Port `7777`  
+- Local socket communication
+
+So it works **only on your own Mac**, unless you host your server online.
+
+---
+
+## 🎓 Educational Purpose
+
+PYchat was created **only as a school project and for learning purposes**.  
+It is **not intended for commercial use**, real-world deployment, or production-grade security.
+
+The app demonstrates:
+- Basic client-server design  
+- Tkinter GUI development  
+- Messaging, search, themes  
+- User session handling  
+- Simple JSON-based storage  
+- Basic encryption for message transfer  
+
+This project is meant for:
+- Practicing Python  
+- Learning networking concepts  
+- Understanding GUI development  
+- Exploring how chat apps work internally  
+
+Not for real-world secure communication.
+
