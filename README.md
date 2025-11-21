@@ -36,20 +36,20 @@ You can run PYchat with Python installed, or build it into standalone Mac apps w
 
 ---
 
-## 🧱 **Project Structure**
+## 🧱 Project Structure
 
-pysolutions/
-├── secure_server.py          **# Server backend (run this first)**
-├── secure_client_gui.py      **# GUI client app (PYchat)**
-├── README.md                 **# Project documentation**
-└── requirements.txt          **# Python dependencies**
+    pysolutions/
+    ├── secure_server.py          # Server backend (run this first)
+    ├── secure_client_gui.py      # GUI client app (PYchat)
+    ├── README.md                 # Project documentation
+    └── requirements.txt          # Python dependencies
 
 ---
 
 ## 🖥️ Platform & Usage Notes
 
 PYchat currently works **only on macOS** when built as a standalone app.  
-This is because the packaged `.app` files produced by **PyInstaller** are macOS-specific and cannot run on Windows or Linux without rebuilding separate versions for each platform.
+This is because the packaged `.app` files produced by PyInstaller are macOS-specific and cannot run on Windows or Linux without rebuilding separate versions for each platform.
 
 To make PYchat work on **multiple computers over the internet**, you would still need:
 
