@@ -38,11 +38,12 @@ You can run PYchat with Python installed, or build it into standalone Mac apps w
 
 ## 🧱 Project Structure
 
-**pysolutions/**  
-**├── secure_server.py** – Server (run this first)  
-**├── secure_client_gui.py** – GUI client (PYchat)  
-**├── README.md** – This file  
-**└── requirements.txt** – Python dependencies
+```text
+pysolutions/
+├── secure_server.py          # Server backend (run this first)
+├── secure_client_gui.py      # GUI client app (PYchat)
+├── README.md                 # Project documentation
+└── requirements.txt          # Python dependencies 
 
 ---
 

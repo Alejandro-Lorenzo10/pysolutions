@@ -26,5 +26,11 @@ dist/
 .vscode/
 .idea/
 
+# Local app data (DO NOT commit)
+settings.json
+secure_db.json
+secret.key
+server_log.txt
+
 # Misc
 *.bak
