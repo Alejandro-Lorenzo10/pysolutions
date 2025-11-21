@@ -1,11 +1,13 @@
-# 🥧PYchat🥧
+🥧PYchat🥧
 
 PYchat is a secure direct-messaging (DM) app built in Python using a Tkinter GUI.
 
 It uses a simple client–server setup:
 
-- **Server (`secure_server.py`)** – handles user accounts, login, messages, conversations, search, typing status, and message exporting.
+- **Server (`secure_server.py`)** – handles user accounts, login, encrypted messages, conversations, search, typing status, and message exporting.
 - **Client (`secure_client_gui.py`)** – the desktop chat app with login/register, inbox, conversation list, chat window, themes, and font-size options.
+
+PYchat uses **AES-256 symmetric encryption** to protect stored messages and sensitive data in the local database.
 
 You can run PYchat with Python installed, or build it into standalone Mac apps with PyInstaller.
 
@@ -15,21 +17,22 @@ You can run PYchat with Python installed, or build it into standalone Mac apps w
 
 - User **registration & login** with 3-strike lockout  
 - **Private DMs**  
+- **AES-256 encrypted message storage**  
 - **Inbox** with timestamps and last-message previews  
 - **Conversation list** with unread counts  
-- **Chat window** with live-ish auto refresh  
+- Live-ish **auto-refresh chat window**  
 - **Typing indicator**  
-- **Search messages**  
+- **Search messages** by keyword  
 - **Clear chat** per conversation  
 - **Export chat to .txt**  
-- **Multiple themes:**
+- Multiple themes:
   - Solar Night  
   - Carbon Grey  
   - Ocean Teal  
   - Classic Light  
   - Minimal White  
-- **Font sizes:** Small, Medium, Large, Extra-Large  
-- **Bigger chat window + improved readability**
+- Font sizes: Small, Medium, Large, Extra-Large  
+- Bigger chat window + improved readability  
 
 ---
 
