@@ -1,7 +1,6 @@
 import socket
 import json
 import os
-import base64
 import tkinter as tk
 from tkinter import messagebox, scrolledtext, filedialog
 from tkinter import ttk
@@ -42,16 +41,24 @@ class SecureDMApp:
         # ========== SETTINGS / THEME ==========
         self.settings = self.load_settings()
 
+        # More accent color options
         self.ACCENT_COLORS = {
             "royal_blue": ("Royal Blue", "#4169E1"),
             "emerald_green": ("Emerald Green", "#2ECC71"),
             "tech_purple": ("Tech Purple", "#9B59B6"),
             "hot_pink": ("Hot Pink", "#FF69B4"),
+            "sunset_orange": ("Sunset Orange", "#FF7F50"),
+            "ocean_teal": ("Ocean Teal", "#1ABC9C"),
+            "soft_gold": ("Soft Gold", "#F1C40F"),
         }
+
+        # More font sizes (global UI scale)
         self.FONT_SIZES = {
-            "small": 9,
-            "medium": 10,
-            "large": 11,
+            "xsmall": 9,
+            "small": 11,
+            "medium": 13,
+            "large": 15,
+            "xlarge": 17,
         }
 
         self.apply_settings_to_theme_vars()
@@ -94,7 +101,7 @@ class SecureDMApp:
             text="🥧PYchat🥧",
             fg=self.header_text,
             bg=self.header_color,
-            font=("Helvetica", 17, "bold"),
+            font=("Helvetica", 18, "bold"),
             pady=10,
         )
         self.title_label.pack(side="left", padx=12, pady=4)
@@ -152,11 +159,11 @@ class SecureDMApp:
         self.acc_box.pack(fill="x", pady=(0, 10))
 
         ttk.Label(self.acc_box, text="Username:").grid(row=0, column=0, sticky="e", pady=3, padx=4)
-        self.username_entry = ttk.Entry(self.acc_box, width=20)
+        self.username_entry = ttk.Entry(self.acc_box, width=22)
         self.username_entry.grid(row=0, column=1, padx=6, pady=3)
 
         ttk.Label(self.acc_box, text="Password:").grid(row=1, column=0, sticky="e", pady=3, padx=4)
-        self.password_entry = ttk.Entry(self.acc_box, width=20, show="*")
+        self.password_entry = ttk.Entry(self.acc_box, width=22, show="*")
         self.password_entry.grid(row=1, column=1, padx=6, pady=3)
 
         self.register_btn = ttk.Button(self.acc_box, text="Register", command=self.register_user, style="Accent.TButton")
@@ -168,11 +175,11 @@ class SecureDMApp:
         self.msg_box = ttk.Labelframe(self.main_frame, text="Send Message")
 
         ttk.Label(self.msg_box, text="To:").grid(row=0, column=0, sticky="e", pady=3, padx=4)
-        self.to_entry = ttk.Entry(self.msg_box, width=20)
+        self.to_entry = ttk.Entry(self.msg_box, width=24)
         self.to_entry.grid(row=0, column=1, padx=6)
 
         ttk.Label(self.msg_box, text="Message:").grid(row=1, column=0, sticky="e", pady=3, padx=4)
-        self.msg_entry = ttk.Entry(self.msg_box, width=45)
+        self.msg_entry = ttk.Entry(self.msg_box, width=55)
         self.msg_entry.grid(row=1, column=1, padx=6)
 
         self.send_btn = ttk.Button(self.msg_box, text="Send", command=self.send_message, style="Accent.TButton")
@@ -195,8 +202,8 @@ class SecureDMApp:
 
         self.output = scrolledtext.ScrolledText(
             self.inbox_box,
-            width=85,
-            height=18,
+            width=95,
+            height=22,
             state="disabled",
             font=("Menlo", self.font_size),
         )
@@ -205,7 +212,7 @@ class SecureDMApp:
         # START: only login visible (chat UI hidden)
         self.hide_chat_ui()
 
-        self.append_output("• Secure DM Client ready. Make sure secure_server.py is running.")
+        # (Removed the first line "Secure DM Client ready..." as requested)
 
         # Status bar
         self.status_bar = tk.Label(
@@ -225,7 +232,7 @@ class SecureDMApp:
     # ========== SETTINGS / THEME ==========
     def default_settings(self) -> dict:
         return {
-            "theme": "light",
+            "theme": "light_navy",      # new theme key
             "accent": "royal_blue",
             "font_size": "medium",
         }
@@ -252,33 +259,52 @@ class SecureDMApp:
             pass
 
     def apply_settings_to_theme_vars(self):
-        theme = self.settings.get("theme", "light")
+        theme = self.settings.get("theme", "light_navy")
         accent_key = self.settings.get("accent", "royal_blue")
         font_size_key = self.settings.get("font_size", "medium")
 
         accent_hex = self.ACCENT_COLORS.get(accent_key, ("Royal Blue", "#4169E1"))[1]
 
-        if theme == "dark":
-            # Discord-style dark
-            self.bg_color = "#2C2F33"
-            self.header_color = "#23272A"
-            self.header_text = accent_hex  # header text = same blue as accent
-            self.section_bg = "#2C2F33"
-            self.output_bg = "#23272A"
+        # Multiple themes
+        if theme == "dark_slate":
+            # Discord-ish neutral dark
+            self.bg_color = "#2B2D31"
+            self.header_color = "#1E1F22"
+            self.header_text = accent_hex
+            self.section_bg = "#2B2D31"
+            self.output_bg = "#313338"
+            self.output_fg = "#FFFFFF"
+            self.text_fg = "#FFFFFF"
+        elif theme == "dark_blue":
+            # Dark with blue-ish background
+            self.bg_color = "#101826"
+            self.header_color = "#060B13"
+            self.header_text = accent_hex
+            self.section_bg = "#101826"
+            self.output_bg = "#141C2B"
+            self.output_fg = "#FFFFFF"
+            self.text_fg = "#FFFFFF"
+        elif theme == "dark_purple":
+            # Dark with purple vibes
+            self.bg_color = "#241B2F"
+            self.header_color = "#1A1323"
+            self.header_text = accent_hex
+            self.section_bg = "#241B2F"
+            self.output_bg = "#2C1837"
             self.output_fg = "#FFFFFF"
             self.text_fg = "#FFFFFF"
         else:
-            # Light + navy
+            # Light (Navy)
             self.bg_color = "#F7F7F7"
             self.header_color = "#0D1B2A"
-            self.header_text = accent_hex  # header text = same blue as accent
+            self.header_text = accent_hex
             self.section_bg = "#FFFFFF"
             self.output_bg = "#FFFFFF"
             self.output_fg = "#000000"
             self.text_fg = "#000000"
 
         self.accent_color = accent_hex
-        self.font_size = self.FONT_SIZES.get(font_size_key, 10)
+        self.font_size = self.FONT_SIZES.get(font_size_key, 13)
 
     def apply_theme_to_widgets(self):
         self.master.configure(bg=self.bg_color)
@@ -326,7 +352,7 @@ class SecureDMApp:
         win.title("Settings")
         win.configure(bg=self.bg_color)
         win.resizable(False, False)
-        self.center_window_over_parent(win, width=380, height=220)
+        self.center_window_over_parent(win, width=420, height=260)
 
         tk.Label(win, text="Theme:", bg=self.bg_color, fg=self.text_fg,
                  font=("Helvetica", self.font_size)).grid(row=0, column=0, sticky="e", padx=8, pady=8)
@@ -335,34 +361,50 @@ class SecureDMApp:
         tk.Label(win, text="Font size:", bg=self.bg_color, fg=self.text_fg,
                  font=("Helvetica", self.font_size)).grid(row=2, column=0, sticky="e", padx=8, pady=8)
 
-        theme_values = ["Light (Navy Blue)", "Dark (Discord)"]
+        # Theme choices (no word "Discord")
+        theme_values = [
+            "Light (Navy)",
+            "Dark (Slate)",
+            "Dark (Blue Accent)",
+            "Dark (Purple Accent)",
+        ]
         self.theme_var = tk.StringVar()
         self.theme_box = ttk.Combobox(win, textvariable=self.theme_var, values=theme_values,
-                                      state="readonly", width=22)
+                                      state="readonly", width=28)
         self.theme_box.grid(row=0, column=1, padx=8, pady=8)
-        if self.settings["theme"] == "dark":
-            self.theme_var.set("Dark (Discord)")
+        cur_theme = self.settings.get("theme", "light_navy")
+        if cur_theme == "dark_slate":
+            self.theme_var.set("Dark (Slate)")
+        elif cur_theme == "dark_blue":
+            self.theme_var.set("Dark (Blue Accent)")
+        elif cur_theme == "dark_purple":
+            self.theme_var.set("Dark (Purple Accent)")
         else:
-            self.theme_var.set("Light (Navy Blue)")
+            self.theme_var.set("Light (Navy)")
 
         accent_values = [v[0] for v in self.ACCENT_COLORS.values()]
         self.accent_var = tk.StringVar()
         self.accent_box = ttk.Combobox(win, textvariable=self.accent_var, values=accent_values,
-                                       state="readonly", width=22)
+                                       state="readonly", width=28)
         self.accent_box.grid(row=1, column=1, padx=8, pady=8)
         cur_key = self.settings.get("accent", "royal_blue")
         cur_label = self.ACCENT_COLORS[cur_key][0]
         self.accent_var.set(cur_label)
 
-        font_values = ["Small", "Medium", "Large"]
+        font_values = ["Extra Small", "Small", "Medium", "Large", "Extra Large"]
         self.font_var = tk.StringVar()
         self.font_box = ttk.Combobox(win, textvariable=self.font_var, values=font_values,
-                                     state="readonly", width=22)
+                                     state="readonly", width=28)
         self.font_box.grid(row=2, column=1, padx=8, pady=8)
-        if self.settings["font_size"] == "small":
+        fs = self.settings.get("font_size", "medium")
+        if fs == "xsmall":
+            self.font_var.set("Extra Small")
+        elif fs == "small":
             self.font_var.set("Small")
-        elif self.settings["font_size"] == "large":
+        elif fs == "large":
             self.font_var.set("Large")
+        elif fs == "xlarge":
+            self.font_var.set("Extra Large")
         else:
             self.font_var.set("Medium")
 
@@ -380,7 +422,16 @@ class SecureDMApp:
 
     def save_settings_from_ui(self, win: tk.Toplevel):
         t = self.theme_var.get()
-        self.settings["theme"] = "dark" if "Dark" in t else "light"
+        if "Light" in t:
+            self.settings["theme"] = "light_navy"
+        elif "Slate" in t:
+            self.settings["theme"] = "dark_slate"
+        elif "Blue" in t:
+            self.settings["theme"] = "dark_blue"
+        elif "Purple" in t:
+            self.settings["theme"] = "dark_purple"
+        else:
+            self.settings["theme"] = "light_navy"
 
         label = self.accent_var.get()
         for key, (lbl, _) in self.ACCENT_COLORS.items():
@@ -389,10 +440,14 @@ class SecureDMApp:
                 break
 
         f = self.font_var.get()
-        if f == "Small":
+        if f == "Extra Small":
+            self.settings["font_size"] = "xsmall"
+        elif f == "Small":
             self.settings["font_size"] = "small"
         elif f == "Large":
             self.settings["font_size"] = "large"
+        elif f == "Extra Large":
+            self.settings["font_size"] = "xlarge"
         else:
             self.settings["font_size"] = "medium"
 
@@ -409,21 +464,21 @@ class SecureDMApp:
         self.apply_theme_to_widgets()
         self.set_status("Settings reset")
 
-        if self.settings["theme"] == "dark":
-            self.theme_var.set("Dark (Discord)")
+        theme = self.settings.get("theme", "light_navy")
+        if theme == "dark_slate":
+            self.theme_var.set("Dark (Slate)")
+        elif theme == "dark_blue":
+            self.theme_var.set("Dark (Blue Accent)")
+        elif theme == "dark_purple":
+            self.theme_var.set("Dark (Purple Accent)")
         else:
-            self.theme_var.set("Light (Navy Blue)")
+            self.theme_var.set("Light (Navy)")
 
         cur_key = self.settings.get("accent", "royal_blue")
         cur_label = self.ACCENT_COLORS[cur_key][0]
         self.accent_var.set(cur_label)
 
-        if self.settings["font_size"] == "small":
-            self.font_var.set("Small")
-        elif self.settings["font_size"] == "large":
-            self.font_var.set("Large")
-        else:
-            self.font_var.set("Medium")
+        self.font_var.set("Medium")
 
     def center_window_over_parent(self, win: tk.Toplevel, width: int, height: int):
         self.master.update_idletasks()
@@ -437,14 +492,12 @@ class SecureDMApp:
 
     # ========== UI SHOW/HIDE (LOGIN PAGE vs CHAT UI) ==========
     def show_chat_ui(self):
-        """Show the Send Message + Inbox sections after login."""
         if not self.msg_box.winfo_manager():
             self.msg_box.pack(fill="x", pady=(0, 10))
         if not self.inbox_box.winfo_manager():
             self.inbox_box.pack(fill="both", expand=True)
 
     def hide_chat_ui(self):
-        """Hide chat UI (used at startup and on logout)."""
         self.msg_box.pack_forget()
         self.inbox_box.pack_forget()
 
@@ -515,7 +568,6 @@ class SecureDMApp:
             self.append_output(f"✔ Logged in as {user}")
             self.set_status("Logged in")
 
-            # hide login box, show chat UI
             self.acc_box.pack_forget()
             self.show_chat_ui()
 
@@ -558,7 +610,6 @@ class SecureDMApp:
         self.user_label.pack_forget()
         self.logout_btn.pack_forget()
 
-        # hide chat UI and show only login box again
         self.hide_chat_ui()
         self.acc_box.pack(fill="x", pady=(0, 10))
 
@@ -636,16 +687,16 @@ class SecureDMApp:
         win = tk.Toplevel(self.master)
         win.title("Search Messages")
         win.configure(bg=self.bg_color)
-        self.center_window_over_parent(win, width=600, height=400)
+        self.center_window_over_parent(win, width=650, height=430)
 
         tk.Label(win, text="Keyword:", bg=self.bg_color, fg=self.text_fg,
                  font=("Helvetica", self.font_size)).grid(row=0, column=0, sticky="e", padx=6, pady=6)
-        query_entry = tk.Entry(win, width=30)
+        query_entry = tk.Entry(win, width=32)
         query_entry.grid(row=0, column=1, padx=6, pady=6)
 
         result_box = scrolledtext.ScrolledText(
             win,
-            width=70,
+            width=78,
             height=18,
             state="disabled",
             font=("Menlo", self.font_size),
@@ -684,7 +735,7 @@ class SecureDMApp:
 
         query_entry.bind("<Return>", lambda e: do_search())
 
-    # ========== CHAT WINDOW (AUTO-REFRESH, TYPING, FILES, CLEAR, EXPORT) ==========
+    # ========== CHAT WINDOW ==========
     def open_chat_with_peer(self):
         if not self.username:
             messagebox.showwarning("Not logged in", "Please log in first.")
@@ -704,12 +755,12 @@ class SecureDMApp:
         win = tk.Toplevel(self.master)
         win.title(f"Chat with {peer}")
         win.configure(bg=self.bg_color)
-        self.center_window_over_parent(win, width=650, height=480)
+        self.center_window_over_parent(win, width=900, height=600)
 
         chat_text = scrolledtext.ScrolledText(
             win,
-            width=72,
-            height=18,
+            width=90,
+            height=22,
             state="normal",
             font=("Menlo", self.font_size),
             bg=self.output_bg,
@@ -737,7 +788,7 @@ class SecureDMApp:
         bottom_frame = tk.Frame(win, bg=self.bg_color)
         bottom_frame.pack(fill="x", padx=10, pady=(5, 10))
 
-        entry = tk.Entry(bottom_frame, width=40)
+        entry = tk.Entry(bottom_frame, width=50, font=("Helvetica", self.font_size))
         entry.grid(row=0, column=0, padx=4)
 
         typing_label = tk.Label(
@@ -771,33 +822,6 @@ class SecureDMApp:
         send_btn = ttk.Button(bottom_frame, text="Send", style="Accent.TButton", command=send_from_chat)
         send_btn.grid(row=0, column=1, padx=4)
 
-        def send_file():
-            if not self.username:
-                return
-            filepath = filedialog.askopenfilename(parent=win, title="Choose file to send")
-            if not filepath:
-                return
-            try:
-                with open(filepath, "rb") as f:
-                    data = f.read()
-                content_b64 = base64.b64encode(data).decode("utf-8")
-                filename = os.path.basename(filepath)
-                respf = send_request(
-                    "send_file",
-                    self.username,
-                    {"to": peer, "filename": filename, "content_b64": content_b64},
-                )
-                if respf.get("ok"):
-                    messagebox.showinfo("File sent", f"Encrypted file sent to {peer}:\n{filename}")
-                    refresh_history()
-                else:
-                    messagebox.showerror("File send failed", str(respf.get("error")))
-            except Exception as e:
-                messagebox.showerror("File error", str(e))
-
-        file_btn = ttk.Button(bottom_frame, text="Send File", style="Accent.TButton", command=send_file)
-        file_btn.grid(row=0, column=2, padx=4)
-
         def clear_conversation():
             if messagebox.askyesno(
                 "Clear conversation",
@@ -812,7 +836,7 @@ class SecureDMApp:
                     messagebox.showerror("Delete failed", str(respd.get("error")))
 
         clear_btn = ttk.Button(bottom_frame, text="Clear Chat", command=clear_conversation)
-        clear_btn.grid(row=0, column=3, padx=4)
+        clear_btn.grid(row=0, column=2, padx=4)
 
         def export_chat():
             default_name = f"chat_{self.username}_with_{peer}.txt"
@@ -839,12 +863,10 @@ class SecureDMApp:
                 messagebox.showerror("Export failed", str(e))
 
         export_btn = ttk.Button(bottom_frame, text="Export to TXT", command=export_chat)
-        export_btn.grid(row=0, column=4, padx=4)
+        export_btn.grid(row=0, column=3, padx=4)
 
         def poll_typing_and_refresh():
-            # auto-refresh chat history (live-ish)
             refresh_history()
-            # typing indicator
             resp_t = send_request("typing_status", self.username, {"peer": peer})
             if resp_t.get("ok") and resp_t.get("typing"):
                 typing_label.config(text=f"{peer} is typing...")
@@ -873,9 +895,13 @@ class SecureDMApp:
 
 def main():
     root = tk.Tk()
+    # Big main window by default
+    root.geometry("1100x700")
+    root.minsize(950, 650)
     app = SecureDMApp(root)
     root.mainloop()
 
 
 if __name__ == "__main__":
     main()
+
